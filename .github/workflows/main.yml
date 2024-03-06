@@ -1,20 +1,22 @@
 name: hello-world-workflow
+
 on:
-  push: 
-    branches: main
-      --main
+  push:
+    branches:
+      - main
   pull_request:
     branches:
-      --main
-  workflow_dispatch:    
+      - main
+  workflow_dispatch:
+
 jobs:
   hello:
     runs-on: windows-latest
-      steps:
-        -name: hello-world
-         run: echo "Hello world"
+    steps:
+      - name: hello-world
+        run: echo "Hello world"
   goodbye:
     runs-on: windows-latest
-      steps:
-        -name: goodbye-world
-         run: echo "Goodbye world"
+    steps:
+      - name: goodbye-world
+        run: echo "Goodbye world"

@@ -1,6 +1,6 @@
 name: comment on new issue
 on:
-  issues: 
+  issues:
     types: [opened]
   
 jobs:
@@ -8,6 +8,4 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - name: "dump github context"
-        run echo '$ {{ toJSON(github.event) }}' | jq
-       
-      
+        run: echo '${{ toJSON(github.event) }}' | jq

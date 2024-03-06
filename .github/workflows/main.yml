@@ -11,7 +11,7 @@ on:
 
 jobs:
   hello:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: hello-world
         run: echo "Hello world"

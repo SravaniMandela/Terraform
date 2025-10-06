@@ -127,13 +127,11 @@ resource "aws_route_table_association" "a1" {
 }
 
 resource "aws_instance" "ec2" {
-  # Referencing the variable
-  ami                 = var.instance_ami
-  # Referencing the variable
+  ami                 = data.aws_ami.amazon_linux_2.id 
   instance_type       = var.instance_type
   subnet_id           = aws_subnet.pub.id
   security_groups     = [aws_security_group.sg.id]
-  # Referencing the variable
+
   key_name            = var.ssh_key_pair_name
   associate_public_ip_address = true
   tags = {
@@ -142,13 +140,11 @@ resource "aws_instance" "ec2" {
 }
 
 resource "aws_instance" "ec2p" {
-  # Referencing the variable
-  ami                 = var.instance_ami
-  # Referencing the variable
+
+  ami                 = data.aws_ami.amazon_linux_2.id 
   instance_type       = var.instance_type
   subnet_id           = aws_subnet.private.id
   security_groups     = [aws_security_group.sgB.id]
-  # Referencing the variable
   key_name            = var.ssh_key_pair_name
   tags = {
     Name = " ${local.project_name}-EC2-B"
@@ -210,7 +206,6 @@ resource "aws_security_group" "sgB" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    # Referencing the VPC CIDR dynamically
     cidr_blocks = [aws_vpc.vpc.cidr_block]
   }
 
@@ -218,7 +213,6 @@ resource "aws_security_group" "sgB" {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    # Referencing the VPC CIDR dynamically
     cidr_blocks = [aws_vpc.vpc.cidr_block]
   }
 

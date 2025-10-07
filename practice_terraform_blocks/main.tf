@@ -1,15 +1,12 @@
 provider "aws" {
-  # Referencing the variable for the region
   region = var.aws_region
 }
 
 resource "aws_vpc" "vpc" {
-  # Referencing the variable
   cidr_block       = var.vpc_cidr_block
   instance_tenancy = "default"
 
   tags = {
-    # Referencing the local value
     Name = local.vpc_name
   }
 }
@@ -18,7 +15,6 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id 
 
   tags = {
-    # Referencing the local value
     Name = local.igw_name
   }
 }
@@ -33,16 +29,13 @@ resource "aws_nat_gateway" "ngw" {
   connectivity_type = "public"
 
   tags = {
-    # Referencing the local value
     Name = local.natgw_name
   }
 }
 
 resource "aws_subnet" "pub" {
   vpc_id                  = aws_vpc.vpc.id
-  # Referencing the variable
   cidr_block              = var.public_subnet_cidr
-  # Referencing the variable
   availability_zone       = var.availability_zone
   map_public_ip_on_launch = true
 
@@ -53,9 +46,7 @@ resource "aws_subnet" "pub" {
 
 resource "aws_subnet" "private" {
   vpc_id            = aws_vpc.vpc.id
-  # Referencing the variable
   cidr_block        = var.private_subnet_cidr
-  # Referencing the variable
   availability_zone = var.availability_zone
 
   tags = {
@@ -65,9 +56,7 @@ resource "aws_subnet" "private" {
 
 resource "aws_subnet" "publicNAT" {
   vpc_id            = aws_vpc.vpc.id
-  # Referencing the variable
   cidr_block        = var.nat_subnet_cidr
-  # Referencing the variable
   availability_zone = var.availability_zone
 
   tags = {
@@ -83,7 +72,6 @@ resource "aws_route_table" "rt1" {
     gateway_id = aws_internet_gateway.igw.id
   }
   route {
-    # Referencing the VPC CIDR dynamically
     cidr_block = aws_vpc.vpc.cidr_block 
     gateway_id = "local"
   }
@@ -97,7 +85,6 @@ resource "aws_route_table" "rt2private" {
   vpc_id = aws_vpc.vpc.id
 
   route {
-    # Referencing the VPC CIDR dynamically
     cidr_block = aws_vpc.vpc.cidr_block
     gateway_id = "local"
   }
@@ -157,7 +144,6 @@ resource "tls_private_key" "ssh_key" {
 }
 
 resource "aws_key_pair" "ssh_key" {
-  # Referencing the variable
   key_name   = var.ssh_key_pair_name
   public_key = tls_private_key.ssh_key.public_key_openssh
 }
@@ -173,7 +159,6 @@ output "public_key" {
 }
 
 resource "aws_security_group" "sg" {
-  # Referencing the local value
   name   = local.public_sg_name
 
   vpc_id = aws_vpc.vpc.id

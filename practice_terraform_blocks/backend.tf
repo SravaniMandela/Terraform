@@ -1,8 +1,7 @@
 terraform {
   backend "s3" {
-    bucket         = "handson-task-state-files"
+    bucket         = "handson-task-state-filess"
     key            = "state/terraform.tfstate"
-    dynamodb_table = "handson_task_state_file_lock"
     region         = "us-east-1"
   }
 }
